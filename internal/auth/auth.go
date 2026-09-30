@@ -112,13 +112,16 @@ func MakeRefreshToken() string {
 	return hex.EncodeToString(token)
 }
 
-// get the ApiKey for Polka webhook 
+// GetAPIKey -
 func GetAPIKey(headers http.Header) (string, error) {
+	authHeader := headers.Get("Authorization")
+	if authHeader == "" {
+		return "", ErrNoAuthHeaderIncluded
+	}
+	splitAuth := strings.Split(authHeader, " ")
+	if len(splitAuth) < 2 || splitAuth[0] != "ApiKey" {
+		return "", errors.New("malformed authorization header")
+	}
 
-// extract key from Authorization header:
-//    Authorization: ApiKey THE_KEY_HERE
-// and strip out "ApiKey" and whitespace.
-
-
-// if key from header != key from .env, respond with 401 status code
+	return splitAuth[1], nil
 }
