@@ -111,3 +111,14 @@ func MakeRefreshToken() string {
 	rand.Read(token)
 	return hex.EncodeToString(token)
 }
+
+// get the ApiKey for Polka webhook 
+func GetAPIKey(headers http.Header) (string, error) {
+
+// extract key from Authorization header:
+//    Authorization: ApiKey THE_KEY_HERE
+// and strip out "ApiKey" and whitespace.
+
+
+// if key from header != key from .env, respond with 401 status code
+}
